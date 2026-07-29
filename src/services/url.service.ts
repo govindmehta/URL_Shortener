@@ -45,7 +45,7 @@ export const getOriginalUrlByShortCode = async (shortCode: string): Promise<stri
 
 export const getAllUrlsService = async () => {
     const urls = await UrlModel.find().sort({ createdAt: -1 });
-    
+
     return urls.map((url) => ({
         originalUrl: url.originalUrl,
         shortCode: url.shortCode,
@@ -53,4 +53,20 @@ export const getAllUrlsService = async () => {
         clicks: url.clicks,
         createdAt: url.createdAt,
     }))
+}
+
+export const getUrlStatsService = async (shortCode: string) => {
+    const url = await UrlModel.findOne({ shortCode });
+    if (!url) {
+        throw new Error("Short URL not found");
+    }
+
+    return {
+        originalUrl: url.originalUrl,
+        shortCode: url.shortCode,
+        shortUrl: `${API_BASE_URL}/${url.shortCode}`,
+        clicks: url.clicks,
+        createdAt: url.createdAt,
+        updatedAt: url.updatedAt,
+    }
 }

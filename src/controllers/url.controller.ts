@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createShortUrl, getAllUrlsService, getOriginalUrlByShortCode } from "../services/url.service";
+import { createShortUrl, getAllUrlsService, getOriginalUrlByShortCode, getUrlStatsService } from "../services/url.service";
 
 export const shortenUrl = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -45,6 +45,20 @@ export const getAllUrls = async (req: Request, res: Response): Promise<void> => 
         res.status(200).json(urls);
     } catch (error) {
         res.status(500).json({
+            message: error instanceof Error ? error.message : "Internal Server Error",
+        });
+    }
+}
+
+export const getUrlStats = async (req: Request<{ shortCode: string }>, res: Response): Promise<void> => {
+    try {
+        const shortCode = req.params.shortCode;
+
+        const stats = await getUrlStatsService(shortCode);
+
+        res.status(200).json(stats);
+    }catch (error) {
+        res.status(404).json({
             message: error instanceof Error ? error.message : "Internal Server Error",
         });
     }
