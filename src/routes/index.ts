@@ -1,10 +1,12 @@
-import {Router} from 'express';
+import { Router } from 'express';
+import { shortenUrl } from '../controllers/ShortenUrlController';
+import { getOriginalUrl } from '../services/url.service';
 
 const mainRouter = Router();
 
-mainRouter.post('/url/shorten');
-mainRouter.get('/:shortCode');
-mainRouter.get('/urls');
-mainRouter.get('/urls/:shortCode/stats');
+mainRouter.post('/urls/shorten', shortenUrl);
+mainRouter.get('/:shortCode', getOriginalUrl);
+// mainRouter.get('/urls');
+// mainRouter.get('/urls/:shortCode/stats');
 
 export default mainRouter;

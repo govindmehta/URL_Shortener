@@ -31,6 +31,6 @@ const urlSchema: mongoose.Schema = new mongoose.Schema<IUrl>(
 )
 
 //automatically generate the type after updating the schema, so we don't have to manually update the type every time we change the schema
-export type Url = mongoose.InferSchemaType<typeof urlSchema>;
+export type UrlType = mongoose.InferSchemaType<typeof urlSchema>;
 
-export const Url = mongoose.model<IUrl>("Url", urlSchema);
+export const UrlModel = mongoose.model<IUrl>("Url", urlSchema);
