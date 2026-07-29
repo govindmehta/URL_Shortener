@@ -32,15 +32,25 @@ export const createShortUrl = async (url: string) => {
 
 export const getOriginalUrlByShortCode = async (shortCode: string): Promise<string> => {
     //filter the url by shortCode and increment the clicks by 1 and return the originalUrl
-    console.log(shortCode);
     const url = await UrlModel.findOneAndUpdate(
         { shortCode },
         { $inc: { clicks: 1 } },
         { returnDocument: "after" }
     );
-    console.log(url);
-    if(!url){
+    if (!url) {
         throw new Error("Short URL not found");
     }
     return url.originalUrl;
+}
+
+export const getAllUrlsService = async () => {
+    const urls = await UrlModel.find().sort({ createdAt: -1 });
+    
+    return urls.map((url) => ({
+        originalUrl: url.originalUrl,
+        shortCode: url.shortCode,
+        shortUrl: `${API_BASE_URL}/${url.shortCode}`,
+        clicks: url.clicks,
+        createdAt: url.createdAt,
+    }))
 }
