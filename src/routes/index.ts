@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import { shortenUrl } from '../controllers/ShortenUrlController';
-import { getOriginalUrl } from '../services/url.service';
+import { getOriginalUrl, shortenUrl } from '../controllers/url.controller';
 
 const mainRouter = Router();
 
