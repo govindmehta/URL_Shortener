@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import mainRouter from "./routes/index";
+import { shortenLimiter } from "./middlewares/rateLimiter";
 
 const app = express();
 
@@ -16,6 +17,6 @@ app.get("/health", (_req, res) => {
 });
 
 //redirecting routes to mainRouter
-app.use('/api/v1',mainRouter);
+app.use('/api/v1',shortenLimiter,mainRouter);
 
 export default app;
